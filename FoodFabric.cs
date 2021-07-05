@@ -14,7 +14,6 @@ namespace SnakeGame
 			Random r = new Random();
 			int x = 0;
 			int y = 0;
-			// To do spawn food where snake is not exists
 			do
 			{
 				x = r.Next(Console.WindowWidth - 1);

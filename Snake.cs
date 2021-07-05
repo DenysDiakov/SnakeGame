@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SnakeGame
@@ -22,10 +23,12 @@ namespace SnakeGame
 		{
 			CurrentDirection = Direction.Right;
 			SnakeParts = new List<SnakePart>();
-			
-			var head = new SnakePart(0, 25,"G");
+
+			int x = Console.WindowHeight - 1;
+			int y = 10;
+			var head = new SnakePart(x, y,"G");
 			SnakeParts.Add(head);
-			SnakeParts.Add(new SnakePart(1, 25));
+			SnakeParts.Add(new SnakePart(x + 1, y));
 		}
 
 		public void Move()

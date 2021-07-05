@@ -23,7 +23,7 @@ namespace SnakeGame
 			while (true)
 			{
 				Console.Clear();
-				// Print snake
+				// Отоьразить элементы в консоли
 				var screenElements = Snake.SnakeParts.Union(FoodFabric.Foods).ToArray();
 				Visualizer.PrintElement(screenElements);
 				Snake.Move();
@@ -53,7 +53,7 @@ namespace SnakeGame
 							return;
 					}
 				}
-				// if snake hit yourself - game over
+				// Если змейка врежеться сама в себя - конец игры
 				if (Snake.SnakeParts.Count > 3 && !Snake.IsAlive())
 				{
 					EndGame();
