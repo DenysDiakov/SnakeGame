@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace SnakeGame
@@ -11,6 +9,8 @@ namespace SnakeGame
 		public Snake Snake { get; }
 
 		public Visualizer Visualizer { get; }
+
+		public int Score { get; set; }
 
 		public SnakeGame()
 		{
@@ -46,6 +46,7 @@ namespace SnakeGame
 							break;
 						case ConsoleKey.Spacebar:
 							Snake.AddBodyPart();
+							++Score;
 							break;
 						default:
 							EndGame();
@@ -60,11 +61,12 @@ namespace SnakeGame
 				}
 				if (FoodFabric.Foods.Count < 1)
 				{
-					FoodFabric.SpawnFood();
+					FoodFabric.SpawnFood(Snake.SnakeParts);
 				}
 				if (Snake.IsSnakeOnFood())
 				{
 					Snake.Eat();
+					++Score;
 				}
 				Thread.Sleep(30);
 			}
@@ -74,7 +76,7 @@ namespace SnakeGame
 		{
 			Console.Clear();
 			Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
-			Console.WriteLine("Game Over!");
+			Console.WriteLine($"Game Over with score {Score} !");
 		}	
 	}
 }

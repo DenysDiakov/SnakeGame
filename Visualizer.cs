@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SnakeGame
 {
@@ -26,15 +24,7 @@ namespace SnakeGame
             }
         }
 
-   //     public void PrintSnake(Snake snake)
-   //     {
-   //         foreach (var part in snake.SnakeParts)
-			//{
-   //             WriteAt(part.Sign, part.XPosition, part.YPosition);
-			//}
-   //     }
-
-        public void PrintElement(/*IList<IElement>*/ params IElement[] element)
+        public void PrintElement(params IElement[] element)
         {
 			foreach (var e in element)
 			{
