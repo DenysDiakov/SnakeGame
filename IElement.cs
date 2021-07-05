@@ -4,10 +4,12 @@ using System.Text;
 
 namespace SnakeGame
 {
-	interface IPosition
+	interface IElement
 	{
 		public int XPosition { get; set; }
 
 		public int YPosition { get; set; }
+
+		public string Sign { get; set; }
 	}
 }

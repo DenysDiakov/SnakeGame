@@ -4,10 +4,19 @@ using System.Text;
 
 namespace SnakeGame
 {
-	class Food : IPosition
+	class Food : IElement
 	{
 		public int XPosition { get; set; }
 
 		public int YPosition { get; set; }
+
+		public string Sign { get; set; }
+
+		public Food(int x, int y)
+		{
+			XPosition = x;
+			YPosition = y;
+			Sign = "@";
+		}
 	}
 }
