@@ -1,4 +1,6 @@
-﻿namespace SnakeGame
+﻿using System;
+
+namespace SnakeGame
 {
 	class Food : IElement
 	{
@@ -8,11 +10,14 @@
 
 		public string Sign { get; set; }
 
+		public ConsoleColor Color { get; set; }
+
 		public Food(int x, int y)
 		{
 			XPosition = x;
 			YPosition = y;
 			Sign = "@";
+			Color = ConsoleColor.Red;
 		}
 	}
 }

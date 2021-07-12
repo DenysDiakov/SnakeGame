@@ -6,8 +6,12 @@ namespace SnakeGame
 {
 	static class FoodFabric
 	{
-		// To do normal initialization
-		public static List<IElement> Foods { get; private set; } = new List<IElement>();
+		public static List<Food> Foods { get; private set; }
+
+		static FoodFabric()
+		{
+			Foods = new List<Food>();
+		}
 
 		static public void SpawnFood(IEnumerable<IElement> elements)
 		{
@@ -18,9 +22,9 @@ namespace SnakeGame
 			{
 				x = r.Next(Console.WindowWidth - 1);
 				y = r.Next(Console.WindowHeight - 1);
-			} 
+			}
 			while (elements.Any(s => s.XPosition == x && s.YPosition == y));
-			IElement food = new Food(r.Next(Console.WindowWidth - 1), r.Next(Console.WindowHeight - 1));
+			Food food = new Food(r.Next(Console.WindowWidth - 1), r.Next(Console.WindowHeight - 1));
 			Foods.Add(food);
 			print(food);
 		}

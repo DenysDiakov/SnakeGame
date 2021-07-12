@@ -19,6 +19,7 @@ namespace SnakeGame
 			}			
 		}
 
+		// Добавить параметры
 		public Snake()
 		{
 			CurrentDirection = Direction.Right;
@@ -26,7 +27,7 @@ namespace SnakeGame
 
 			int x = Console.WindowHeight - 1;
 			int y = 10;
-			var head = new SnakePart(x, y,"G");
+			var head = new SnakePart(x, y, "G") { Color = ConsoleColor.DarkGreen };
 			SnakeParts.Add(head);
 			SnakeParts.Add(new SnakePart(x + 1, y));
 		}
@@ -97,7 +98,10 @@ namespace SnakeGame
 					break;
 			}
 
-			SnakeParts.Add(new SnakePart(x, y));
+			SnakeParts.Add(new SnakePart(x, y)
+			{ 
+				Color = SnakeParts.Count % 2 == 0 ? ConsoleColor.Yellow : ConsoleColor.Green 
+			});
 		}
 
 		public bool IsAlive()

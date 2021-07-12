@@ -6,16 +6,21 @@ namespace SnakeGame
     {
         public Visualizer()
 		{
+            int width = 55;
+            int height = 25;
             Console.CursorVisible = false;
-            Console.SetWindowSize(55, 25);
+            Console.SetWindowSize(width, height);
+            Console.SetBufferSize(width, height);
 		}
 
-        public void WriteAt(string s, int x, int y)
+        public void WriteAt(string sign, int x, int y, ConsoleColor color)
         {
             try
             {
+                Console.ForegroundColor = color;
                 Console.SetCursorPosition(x, y);
-                Console.Write(s);
+                Console.Write(sign);
+                Console.ResetColor();
             }
             catch (ArgumentOutOfRangeException e)
             {
@@ -28,7 +33,7 @@ namespace SnakeGame
         {
 			foreach (var e in element)
 			{
-                WriteAt(e.Sign, e.XPosition, e.YPosition);
+                WriteAt(e.Sign, e.XPosition, e.YPosition, e.Color);
 			}
         }
     }
