@@ -6,25 +6,21 @@ namespace SnakeGame
 {
 	static class FoodFabric
 	{
+		private static Visualizer _visualizer;
+
 		public static List<Food> Foods { get; private set; }
 
 		static FoodFabric()
 		{
+			_visualizer = new Visualizer();
 			Foods = new List<Food>();
 		}
 
-		static public void SpawnFood(IEnumerable<IElement> elements)
+		static public void SpawnFood()
 		{
-			Random r = new Random();
-			int x = 0;
-			int y = 0;
-			do
-			{
-				x = r.Next(Console.WindowWidth - 1);
-				y = r.Next(Console.WindowHeight - 1);
-			}
-			while (elements.Any(s => s.XPosition == x && s.YPosition == y));
-			Food food = new Food(r.Next(Console.WindowWidth - 1), r.Next(Console.WindowHeight - 1));
+			int x, y = 0;
+			Arena.FindSpace(out x, out y);
+			Food food = new Food(x, y);
 			Foods.Add(food);
 			print(food);
 		}
@@ -39,8 +35,7 @@ namespace SnakeGame
 
 		private static void print(IElement food)
 		{
-			var visualizer = new Visualizer();
-			visualizer.PrintElement(food);
+			_visualizer.PrintElement(food);
 		}
 	}
 }

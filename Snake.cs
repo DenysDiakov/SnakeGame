@@ -19,7 +19,7 @@ namespace SnakeGame
 			}			
 		}
 
-		// Добавить параметры
+		// Add parameters
 		public Snake()
 		{
 			CurrentDirection = Direction.Right;
@@ -34,7 +34,7 @@ namespace SnakeGame
 
 		public void Move()
 		{
-			// Хвост змейки. Каждый элемент становиться на место следующего
+			// Snake tail. Each elements takes the place of the next
 			for (int i = SnakeParts.Count - 1; i > 0; i--)
 			{
 				var previousPart = SnakeParts[i];
