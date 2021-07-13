@@ -15,6 +15,8 @@ namespace SnakeGame
 
 		public SnakeRepository SnakeRepository { get; set; }
 
+		public const int Speed = 66;
+
 		public SnakeGame()
 		{
 			SnakeRepository = new SnakeRepository();
@@ -25,49 +27,89 @@ namespace SnakeGame
 		public void Start(GameSettings settings)
 		{
 			SnakeRepository.SpawnSnake();
+			SnakeRepository.SpawnSnake();
+
 			// temp
-			Snake = SnakeRepository.Snakes.FirstOrDefault();
+			//Snake = SnakeRepository.Snakes.FirstOrDefault();
+
+			// Remove while true
 			while (true)
 			{
-			
 				Console.Clear();
 				// Show elements in console
-				//var screenElements = Snake.SnakeParts.Union(FoodFabric.Foods).ToArray();
 				Visualizer.PrintElement(Arena.AllElements.ToArray());
-				Snake.Move();
-				if (Snake.Head.XPosition == Console.WindowWidth)
+				SnakeRepository.Move();
+
+				var snakes = Arena.AllElements
+			   .Where(x => x.GetType().Equals(typeof(SnakePart)));
+
+				var gr = Arena.AllElements.ToLookup(x => x.GetType());
+
+				foreach (var snake in SnakeRepository.Snakes)
 				{
-					EndGame();
-					return;
+					int headXPosition = snake.Head.XPosition;
+					int headYPosition = snake.Head.YPosition;
+					//if (headXPosition == Console.WindowWidth ||
+					//	headYPosition == Console.WindowHeight ||
+					//	headXPosition <= -2 ||
+					//	headYPosition <= -2)
+					//{
+					//	EndGame();
+					//	return;
+					//}
+					//Console.WriteLine("x = " + headXPosition + "y = " + headYPosition);
+
+					//int headXPosition = snake.Head.XPosition;
+					//int headYPosition = snake.Head.YPosition;
+					if (snake.Head.XPosition == Console.WindowWidth )
+					{
+						snake.Head.XPosition = 0;						
+					}
+					if (snake.Head.YPosition == Console.WindowHeight)
+					{
+						snake.Head.YPosition = 0;
+					}
+					if (snake.Head.XPosition <= -1)
+					{
+						snake.Head.XPosition = Console.WindowWidth;
+					}
+					if (snake.Head.YPosition <= -1)
+					{
+						snake.Head.YPosition = Console.WindowHeight;
+					}
 				}
-				if (Snake.Head.YPosition == Console.WindowHeight)
-				{
-					EndGame();
-					return;
-				}
+				
 				if (Console.KeyAvailable)
 				{
-					var key = Console.ReadKey().Key;
+					var key = Console.ReadKey(true).Key;
 					switch (key)
 					{
 						case ConsoleKey.UpArrow:
-							Snake.ChangeDirection(Direction.Up);
+							SnakeRepository.Snakes.FirstOrDefault().ChangeDirection(Direction.Up);
+							break;
+						case ConsoleKey.W:
+							SnakeRepository.Snakes.LastOrDefault().ChangeDirection(Direction.Up);
 							break;
 						case ConsoleKey.RightArrow:
-							Snake.ChangeDirection(Direction.Right);
+							SnakeRepository.Snakes.FirstOrDefault().ChangeDirection(Direction.Right);
 							break;
+						case ConsoleKey.D:
+							SnakeRepository.Snakes.LastOrDefault().ChangeDirection(Direction.Right);
+							break;											
 						case ConsoleKey.DownArrow:
-							Snake.ChangeDirection(Direction.Down);
+							SnakeRepository.Snakes.FirstOrDefault().ChangeDirection(Direction.Down);
+							break;
+						case ConsoleKey.S:
+							SnakeRepository.Snakes.LastOrDefault().ChangeDirection(Direction.Down);
 							break;
 						case ConsoleKey.LeftArrow:
-							Snake.ChangeDirection(Direction.Left);
+							SnakeRepository.Snakes.FirstOrDefault().ChangeDirection(Direction.Left);
 							break;
-
-						case ConsoleKey.W:
-
-
+						case ConsoleKey.A:
+							SnakeRepository.Snakes.LastOrDefault().ChangeDirection(Direction.Left);
+							break;
 						case ConsoleKey.Spacebar:
-							Snake.AddBodyPart();
+							SnakeRepository.Snakes.FirstOrDefault().AddBodyPart();
 							++Score;
 							break;
 						default:
@@ -75,31 +117,33 @@ namespace SnakeGame
 							return;
 					}
 				}
+
 				// If snake crash into itself - Game over
-				if (Snake.SnakeParts.Count > 3 && !Snake.IsAlive())
+				if (/*SnakeRepository.Snakes.Any(x => x.SnakeParts.Count > 3) &&*/ !SnakeRepository.SnakesIsAlive())
 				{
 					EndGame();
 					return;
 				}
-				if (FoodFabric.Foods.Count < 1)
+				if (FoodFabric.Foods.Count < 2)
 				{
 					FoodFabric.SpawnFood();
 				}
-				if (Snake.IsSnakeOnFood())
+				if (SnakeRepository.IsSnakesOnFood())
 				{
-					Snake.Eat();
+					var snakesToUpdate = SnakeRepository.GetOnFoodSnakes();
+					snakesToUpdate.ForEach(x => x.Eat());
 					++Score;
 				}
-				Thread.Sleep(30);
+				Thread.Sleep(Speed);
 			}
 		}
 
 		public void EndGame()
 		{
 			Console.Clear();
-			Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			Console.SetCursorPosition(Console.WindowWidth / 3, Console.WindowHeight / 2);
 			Console.WriteLine($"Game Over with score {Score} !");
-		}	
+		}
 	}
 
 	class GameSettings
@@ -128,7 +172,7 @@ namespace SnakeGame
 			addPlayer(p2);
 		}
 
-		private void addPlayer(string name) 
+		private void addPlayer(string name)
 		{
 			Players.Add(new Player(name));
 		}

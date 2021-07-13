@@ -24,7 +24,7 @@ namespace SnakeGame
 		/// <param name="x">X coordinate</param>
 		/// <param name="y">Y coordinate</param>
 		public static void FindSpace(out int x, out int y)
-		{
+		{	
 			Random r = new Random();
 			int xCoordinate = 0;
 			int yCoordinate = 0;

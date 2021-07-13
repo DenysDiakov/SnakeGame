@@ -18,8 +18,7 @@ namespace SnakeGame
 
 		static public void SpawnFood()
 		{
-			int x, y = 0;
-			Arena.FindSpace(out x, out y);
+			Arena.FindSpace(out int x, out int y);
 			Food food = new Food(x, y);
 			Foods.Add(food);
 			print(food);

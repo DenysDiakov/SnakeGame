@@ -16,17 +16,17 @@ namespace SnakeGame
 			get
 			{
 				return _head ??= SnakeParts.FirstOrDefault();
-			}			
+			}
 		}
 
 		// Add parameters
-		public Snake()
+		public Snake(int x, int y)
 		{
 			CurrentDirection = Direction.Right;
 			SnakeParts = new List<SnakePart>();
 
-			int x = Console.WindowHeight - 1;
-			int y = 10;
+			//int x = Console.WindowHeight - 1;
+			//int y = 10;
 			var head = new SnakePart(x, y, "G") { Color = ConsoleColor.DarkGreen };
 			SnakeParts.Add(head);
 			SnakeParts.Add(new SnakePart(x + 1, y));
@@ -60,8 +60,8 @@ namespace SnakeGame
 					break;
 				case Direction.Left:
 					--Head.XPosition;
-					break;				
-			}						
+					break;
+			}
 		}
 
 		public void ChangeDirection(Direction direction)
@@ -99,14 +99,17 @@ namespace SnakeGame
 			}
 
 			SnakeParts.Add(new SnakePart(x, y)
-			{ 
-				Color = SnakeParts.Count % 2 == 0 ? ConsoleColor.Yellow : ConsoleColor.Green 
+			{
+				Color = SnakeParts.Count % 2 == 0 ? ConsoleColor.Yellow : ConsoleColor.Green
 			});
 		}
 
 		public bool IsAlive()
 		{
-			return !SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
+			return Arena.AllElements
+				.Where(x => x.GetType() == typeof(SnakePart)
+				&& x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
+			//return !SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
 		}
 
 		public bool IsSnakeOnFood()
