@@ -14,10 +14,12 @@ namespace SnakeGame
 			Snakes = new List<Snake>();
 		}
 
-		public void SpawnSnake()
+		public Snake SpawnSnake()
 		{
-			Arena.FindSpace(out int x, out int y);			
-			Snakes.Add(new Snake(x, y));
+			Arena.FindSpace(out int x, out int y);
+			var snake = new Snake(x, y);
+			Snakes.Add(snake);
+			return snake;
 		}
 
 		public void Move()

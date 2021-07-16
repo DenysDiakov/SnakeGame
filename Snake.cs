@@ -19,8 +19,10 @@ namespace SnakeGame
 			}
 		}
 
+		public Player Player { get; set; }
+
 		// Add parameters
-		public Snake(int x, int y)
+		public Snake(int x, int y, Player player)
 		{
 			CurrentDirection = Direction.Right;
 			SnakeParts = new List<SnakePart>();
@@ -30,6 +32,7 @@ namespace SnakeGame
 			var head = new SnakePart(x, y, "G") { Color = ConsoleColor.DarkGreen };
 			SnakeParts.Add(head);
 			SnakeParts.Add(new SnakePart(x + 1, y));
+			Player = player;
 		}
 
 		public void Move()
@@ -106,7 +109,7 @@ namespace SnakeGame
 
 		public bool IsAlive()
 		{
-			return Arena.AllElements
+			return !Arena.AllElements
 				.Where(x => x.GetType() == typeof(SnakePart)
 				&& x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
 			//return !SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
