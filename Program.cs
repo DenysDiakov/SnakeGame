@@ -6,9 +6,8 @@ namespace SnakeGame
 	{
 		static void Main(string[] args)
 		{
-			SnakeGame game = new SnakeGame();
-			var settings = new GameSettings("Player 1");
-			game.Start(settings);
+			SnakeGame game = new SnakeGame();			
+			game.Start();
 			Console.ReadKey();
 		}
 	}

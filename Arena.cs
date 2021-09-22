@@ -23,7 +23,7 @@ namespace SnakeGame
 		/// </summary>
 		/// <param name="x">X coordinate</param>
 		/// <param name="y">Y coordinate</param>
-		public static void FindSpace(out int x, out int y)
+		public static Position FindFreeSpace()
 		{
 			Random r = new Random();
 			int xCoordinate = 0;
@@ -34,8 +34,20 @@ namespace SnakeGame
 				yCoordinate = r.Next(Console.WindowHeight - 1);
 			}
 			while (AllElements.Any(s => s.XPosition == xCoordinate && s.YPosition == yCoordinate));
-			x = xCoordinate;
-			y = yCoordinate;
+			return new Position(xCoordinate, yCoordinate);			
+		}
+	}
+
+	public class Position
+	{
+		public int X { get; set; }
+
+		public int Y { get; set; }
+
+		public Position(int x, int y)
+		{
+			X = x;
+			Y = y;
 		}
 	}
 }

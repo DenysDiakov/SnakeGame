@@ -71,7 +71,8 @@ namespace SnakeGame
 
 		public void Eat()
 		{
-			FoodFabric.DeleteFood(Head.XPosition, Head.YPosition);
+			var position = new Position(Head.XPosition, Head.YPosition);
+			FoodFabric.DeleteFood(position);
 			AddBodyPart();
 		}
 
@@ -104,12 +105,12 @@ namespace SnakeGame
 			});
 		}
 
-		public bool IsAlive()
+		public bool IsDead()
 		{
-			return !SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
+			return SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
 		}
 
-		public bool IsSnakeOnFood()
+		public bool IsOnFood()
 		{
 			return FoodFabric.Foods.Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
 		}

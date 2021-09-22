@@ -6,11 +6,12 @@ namespace SnakeGame
     {
         public Visualizer()
 		{
-            int width = 55;
-            int height = 25;
+            const int width = 55;
+            const int height = 25;
+
             Console.CursorVisible = false;
             Console.SetWindowSize(width, height);
-            Console.SetBufferSize(width, height);
+            Console.SetBufferSize(width + 1, height + 1);
 		}
 
         public void WriteAt(string sign, int x, int y, ConsoleColor color)

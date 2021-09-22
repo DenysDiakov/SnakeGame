@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SnakeGame
 {
@@ -13,9 +11,11 @@ namespace SnakeGame
 			Snakes = new List<Snake>();
 		}
 
-		public void SpawnSnake()
+		public Snake SpawnSnake()
 		{
-			Snakes.Add(new Snake());
+			var snake = new Snake();
+			Snakes.Add(snake);
+			return snake;
 		}
 	}
 }
