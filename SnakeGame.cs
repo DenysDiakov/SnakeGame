@@ -4,20 +4,13 @@ using System.Threading;
 
 namespace SnakeGame
 {
-	class SnakeGame
+	public class SnakeGame
 	{
-		public Visualizer Visualizer { get; }
+		public SnakeRepository SnakeRepository { get; private set; }
 
-		public SnakeRepository SnakeRepository { get; set; }
+		public Snake Snake { get; private set; }
 
-		public Snake Snake { get; set; }
-
-		public int Score { get; set; }
-
-		public SnakeGame()
-		{
-			Visualizer = new Visualizer();
-		}
+		public int Score { get; private set; }
 
 		public void Start()
 		{
@@ -26,26 +19,26 @@ namespace SnakeGame
 			while (true)
 			{
 				Console.Clear();
-				// Show elements in console
-				Visualizer.PrintElement(Arena.AllElements.ToArray());
+				Visualizer.PrintElements(Arena.AllElements.ToArray());
 				Snake.Move();
 
-				var snakeHead = Snake.Head;				
-				if (snakeHead.XPosition == Console.WindowWidth)
+				var snakeHead = Snake.Head;
+				var headPosition = snakeHead.Coordinates;
+				if (headPosition.X == Console.WindowWidth)
 				{
-					snakeHead.XPosition = 0;
+					snakeHead.Coordinates = new Coordinates(0, headPosition.Y);
 				}
-				else if (snakeHead.YPosition == Console.WindowHeight)
+				else if (headPosition.Y == Console.WindowHeight)
 				{
-					snakeHead.YPosition = 0;
+					snakeHead.Coordinates = new Coordinates(headPosition.X, 0);
 				}
-				else if (snakeHead.XPosition <= -1)
+				else if (headPosition.X <= -1)
 				{
-					snakeHead.XPosition = Console.WindowWidth;
+					snakeHead.Coordinates = new Coordinates(Console.WindowWidth, headPosition.Y);
 				}
-				else if (snakeHead.YPosition <= -1)
+				else if (headPosition.Y <= -1)
 				{
-					snakeHead.YPosition = Console.WindowHeight;
+					snakeHead.Coordinates = new Coordinates(headPosition.X, Console.WindowHeight);
 				}
 				if (Console.KeyAvailable)
 				{
@@ -66,14 +59,13 @@ namespace SnakeGame
 							break;
 						case ConsoleKey.Spacebar:
 							Snake.AddBodyPart();
-							IncreaseScore(); ;
+							IncreaseScore();
 							break;
 						default:
 							EndGame();
 							return;
 					}
 				}
-				// If snake crash into itself - Game over
 				if (Snake.SnakeParts.Count > 3 && Snake.IsDead())
 				{
 					EndGame();

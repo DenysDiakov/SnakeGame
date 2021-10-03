@@ -2,9 +2,9 @@
 
 namespace SnakeGame
 {
-	class SnakeRepository
+	public class SnakeRepository
 	{
-		public static List<Snake> Snakes { get; set; }
+		public static List<Snake> Snakes { get; private set; }
 
 		public SnakeRepository()
 		{

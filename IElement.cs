@@ -2,11 +2,9 @@
 
 namespace SnakeGame
 {
-	interface IElement
+	public interface IElement
 	{
-		public int XPosition { get; set; }
-
-		public int YPosition { get; set; }
+		public Coordinates Coordinates { get; set; }
 
 		public string Sign { get; set; }
 

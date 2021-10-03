@@ -2,20 +2,17 @@
 
 namespace SnakeGame
 {
-	class SnakePart : IElement
+	public class SnakePart : IElement
 	{
-		public int XPosition { get; set; }
-
-		public int YPosition { get; set; }
-
 		public string Sign { get; set; }
 
 		public ConsoleColor Color { get; set; }
 
-		public SnakePart(int x, int y, string sign = "0")
+		public Coordinates Coordinates { get; set; }
+
+		public SnakePart(Coordinates position, string sign = "0")
 		{
-			XPosition = x;
-			YPosition = y;
+			Coordinates = position;
 			Sign = sign;
 			Color = ConsoleColor.Green;
 		}

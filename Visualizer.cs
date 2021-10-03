@@ -2,9 +2,9 @@
 
 namespace SnakeGame
 {
-	class Visualizer
+	public class Visualizer
     {
-        public Visualizer()
+        static Visualizer()
 		{
             const int width = 55;
             const int height = 25;
@@ -12,9 +12,17 @@ namespace SnakeGame
             Console.CursorVisible = false;
             Console.SetWindowSize(width, height);
             Console.SetBufferSize(width + 1, height + 1);
-		}
+		}       
 
-        public void WriteAt(string sign, int x, int y, ConsoleColor color)
+        public static void PrintElements(params IElement[] element)
+        {
+			foreach (var e in element)
+			{
+                writeAt(e.Sign, e.Coordinates.X, e.Coordinates.Y, e.Color);
+			}
+        }
+
+        private static void writeAt(string sign, int x, int y, ConsoleColor color)
         {
             try
             {
@@ -28,14 +36,6 @@ namespace SnakeGame
                 Console.Clear();
                 Console.WriteLine(e.Message);
             }
-        }
-
-        public void PrintElement(params IElement[] element)
-        {
-			foreach (var e in element)
-			{
-                WriteAt(e.Sign, e.XPosition, e.YPosition, e.Color);
-			}
         }
     }
 }

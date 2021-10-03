@@ -2,20 +2,17 @@
 
 namespace SnakeGame
 {
-	class Food : IElement
+	internal class Food : IElement
 	{
-		public int XPosition { get; set; }
-
-		public int YPosition { get; set; }
-
 		public string Sign { get; set; }
+
+		public Coordinates Coordinates { get; set; }
 
 		public ConsoleColor Color { get; set; }
 
-		public Food(int x, int y)
+		public Food(Coordinates position)
 		{
-			XPosition = x;
-			YPosition = y;
+			Coordinates = position;
 			Sign = "@";
 			Color = ConsoleColor.Red;
 		}

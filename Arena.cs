@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SnakeGame
 {
-	class Arena
+	internal static class Arena
 	{
 		/// <summary>
 		/// All elements on the arena
@@ -14,7 +13,7 @@ namespace SnakeGame
 		{
 			get
 			{
-				return SnakeRepository.Snakes.SelectMany(x => x.SnakeParts).ToList<IElement>().Concat(FoodFabric.Foods);
+				return SnakeRepository.Snakes.SelectMany(x => x.SnakeParts).Cast<IElement>().Concat(FoodFabric.Foods);
 			}
 		}
 
@@ -23,28 +22,26 @@ namespace SnakeGame
 		/// </summary>
 		/// <param name="x">X coordinate</param>
 		/// <param name="y">Y coordinate</param>
-		public static Position FindFreeSpace()
+		public static Coordinates FindFreeSpace()
 		{
 			Random r = new Random();
-			int xCoordinate = 0;
-			int yCoordinate = 0;
+			Coordinates freePosition;
 			do
 			{
-				xCoordinate = r.Next(Console.WindowWidth - 1);
-				yCoordinate = r.Next(Console.WindowHeight - 1);
+				freePosition = new Coordinates(r.Next(Console.WindowWidth - 1), r.Next(Console.WindowHeight - 1));
 			}
-			while (AllElements.Any(s => s.XPosition == xCoordinate && s.YPosition == yCoordinate));
-			return new Position(xCoordinate, yCoordinate);			
+			while (AllElements.Any(element => element.Coordinates.Equals(freePosition)));
+			return freePosition;			
 		}
 	}
 
-	public class Position
+	public struct Coordinates
 	{
 		public int X { get; set; }
 
 		public int Y { get; set; }
 
-		public Position(int x, int y)
+		public Coordinates(int x, int y)
 		{
 			X = x;
 			Y = y;

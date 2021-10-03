@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SnakeGame
 {
-	class Snake
+	public class Snake
 	{
 		public List<SnakePart> SnakeParts { get; private set; }
 
-		public Direction CurrentDirection { get; set; }
+		public Direction CurrentDirection { get; private set; }
 
 		private SnakePart _head = null;
 		public SnakePart Head
@@ -19,17 +19,16 @@ namespace SnakeGame
 			}			
 		}
 
-		// Add parameters
 		public Snake()
 		{
 			CurrentDirection = Direction.Right;
 			SnakeParts = new List<SnakePart>();
 
-			int x = Console.WindowHeight - 1;
-			int y = 10;
-			var head = new SnakePart(x, y, "G") { Color = ConsoleColor.DarkGreen };
+			var coordinates = new Coordinates(Console.WindowHeight - 1, 10);
+			var head = new SnakePart(coordinates, "G") { Color = ConsoleColor.DarkGreen };
 			SnakeParts.Add(head);
-			SnakeParts.Add(new SnakePart(x + 1, y));
+			++coordinates.X;
+			SnakeParts.Add(new SnakePart(coordinates));
 		}
 
 		public void Move()
@@ -43,46 +42,16 @@ namespace SnakeGame
 					break;
 				}
 				var nextPart = SnakeParts[i - 1];
-				previousPart.XPosition = nextPart.XPosition;
-				previousPart.YPosition = nextPart.YPosition;
+				previousPart.Coordinates = nextPart.Coordinates;
 			}
 
-			switch (CurrentDirection)
-			{
-				case Direction.Up:
-					--Head.YPosition;
-					break;
-				case Direction.Right:
-					++Head.XPosition;
-					break;
-				case Direction.Down:
-					++Head.YPosition;
-					break;
-				case Direction.Left:
-					--Head.XPosition;
-					break;				
-			}						
+			changeCoordinates(Head);						
 		}
 
-		public void ChangeDirection(Direction direction)
+		private void changeCoordinates(SnakePart snakePart)
 		{
-			CurrentDirection = direction;
-		}
-
-		public void Eat()
-		{
-			var position = new Position(Head.XPosition, Head.YPosition);
-			FoodFabric.DeleteFood(position);
-			AddBodyPart();
-		}
-
-		public void AddBodyPart()
-		{
-			var lastPart = SnakeParts.LastOrDefault();
-
-			int x = lastPart.XPosition;
-			int y = lastPart.YPosition;
-
+			int x = snakePart.Coordinates.X;
+			int y = snakePart.Coordinates.Y;
 			switch (CurrentDirection)
 			{
 				case Direction.Up:
@@ -98,8 +67,26 @@ namespace SnakeGame
 					--x;
 					break;
 			}
+			snakePart.Coordinates = new Coordinates(x, y);
+		}
 
-			SnakeParts.Add(new SnakePart(x, y)
+
+		public void ChangeDirection(Direction direction)
+		{
+			CurrentDirection = direction;
+		}
+
+		public void Eat()
+		{
+			FoodFabric.DeleteFood(Head.Coordinates);
+			AddBodyPart();
+		}
+
+		public void AddBodyPart()
+		{
+			var lastPart = SnakeParts.LastOrDefault();			
+			changeCoordinates(lastPart);
+			SnakeParts.Add(new SnakePart(lastPart.Coordinates)
 			{ 
 				Color = SnakeParts.Count % 2 == 0 ? ConsoleColor.Yellow : ConsoleColor.Green 
 			});
@@ -107,12 +94,12 @@ namespace SnakeGame
 
 		public bool IsDead()
 		{
-			return SnakeParts.Where(x => x != Head).Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
+			return SnakeParts.Where(snakePart => snakePart != Head).Any(snakePart => snakePart.Coordinates.Equals(Head.Coordinates));
 		}
 
 		public bool IsOnFood()
 		{
-			return FoodFabric.Foods.Any(x => x.XPosition == Head.XPosition && x.YPosition == Head.YPosition);
+			return FoodFabric.Foods.Any(food => food.Coordinates.Equals(Head.Coordinates));
 		}
 	}
 }

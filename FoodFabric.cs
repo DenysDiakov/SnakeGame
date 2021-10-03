@@ -3,28 +3,26 @@ using System.Linq;
 
 namespace SnakeGame
 {
-	static class FoodFabric
+	internal static class FoodFabric
 	{
-		public static List<Food> Foods { get; private set; }
+		public static List<Food> Foods { get; }
 
 		static FoodFabric()
 		{
 			Foods = new List<Food>();
 		}
 
-		static public void SpawnFood()
+		public static void SpawnFood()
 		{
-			int x, y = 0;
-			var freePosition = Arena.FindFreeSpace();
-			Food food = new Food(freePosition.X, freePosition.Y);
+			var freeSpaceCoordinates = Arena.FindFreeSpace();
+			var food = new Food(freeSpaceCoordinates);
 			Foods.Add(food);
 		}
 
-		static public void DeleteFood(Position position)
+		public static void DeleteFood(Coordinates position)
 		{
-			var food = Foods.Where(food => food.XPosition == position.X && food.YPosition == position.Y).FirstOrDefault();
+			var food = Foods.Where(food => food.Coordinates.Equals(position)).FirstOrDefault();
 			Foods.Remove(food);
-			food.Sign = string.Empty;
 		}
 	}
 }
